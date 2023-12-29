@@ -34,7 +34,7 @@ main:
     movlw 0b00001100 ; first four zeros are irrelevent. 
 		     ; last four GP3, GP2, GP1, GP0
 		     ; 1 will set to input, 0 will set to output
-		     ; GP3 is input only.
+		     ; GP3 is input only. This is used to select the mode. High = burst low = 1 AP
 		     ; Here GP2 is the input--dendric arbor
 		     ; GP1 is the soma output -- represents burst refractory period
 		     ; GP0 is the axon -- this carries the burst
@@ -56,7 +56,7 @@ mainloop:
     bcf GP0 ; sets axon the output to low --- no action potentials going
     btfss GP2 ; Polls GP2 until a high signal is received
     goto mainloop
-    movlw 53   ;This should delay about 1.0 s --53^3/153600 s--
+    movlw 53   ;This should delay about 0.5 s --53^3/307200 s--
     bsf GP1; sets soma output to high. This represents the start of the 
 		; the full refractory period--absolute and relative
 		; high signals on GP2
@@ -64,17 +64,17 @@ mainloop:
     nop
 burst:    
     bsf GP0 ; sets the output to high--first action potential
-    movlw 20 ;This should delay about 0.05 s --4^3/153600 s-- repetition period
+    movlw 20 ;This should delay about 0.025 s --20^3/307200 s-- repetition period
 		; of the action potential burst
     call delay
     btfsc GP3
     bcf GP0; set the output to low --- interval between action potential 
     movlw 20 
-    call delay ;This should delay about 0.05 s --4^3/153600 s--
+    call delay ;This should delay about 0.025 s --20^3/307200 s--
     decfsz 0x13, 1
     goto burst
     nop
-    movlw 53; This should delay about 1.0 s refractory period
+    movlw 53; This should delay about 0.5 s refractory period
     call delay
     goto mainloop
     
@@ -96,11 +96,3 @@ delay_loop:
     nop
     
 END resetVect 
-
-
-
-
-
-
-
-
