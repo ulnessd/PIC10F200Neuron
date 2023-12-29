@@ -62,6 +62,7 @@ burst:
     movlw 20 ;This should delay about 0.05 s --4^3/153600 s-- repetition period
 		; of the action potential burst
     call delay
+    btfsc GP3
     bcf GP0; set the output to low --- interval between action potential 
     movlw 20 
     call delay ;This should delay about 0.05 s --4^3/153600 s--
@@ -90,6 +91,8 @@ delay_loop:
     nop
     
 END resetVect 
+
+
 
 
 
