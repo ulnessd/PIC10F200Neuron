@@ -1,7 +1,8 @@
 ; Simulated Neuron Program
     ;This will flash a PIC10F200 with a program that takes an input and
     ;produces two outputs one for the soma representing the full burst refractory 
-    ;period and on for the axon which gives a 12 action potential burst
+    ;period and on for the axon which gives an action potential or a 12 action potential burst
+    ;as selected by the user
     ;These can by considered as units that can be put together in a larger 
     ; circuit to build a network.
     
@@ -41,6 +42,10 @@ main:
     tris 6 ;the 6 sets tris to the value stored in W
     nop
     
+    nop
+    movlw 0b11011111 ;the zero here will set GP2 to IO rather than external clock
+    option ; the contents of the working register is moved to OPTION register 
+    nop
 
 
 mainloop:
@@ -91,6 +96,7 @@ delay_loop:
     nop
     
 END resetVect 
+
 
 
 
